@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import axios from "axios";
 import moment from "moment";
 import styled from 'styled-components';
 import CommicsList from "@/components/commicsList";
@@ -11,6 +12,7 @@ import { baseURL, generateHash } from '@/api/api';
 
 import type { NextPage } from 'next';
 import { Image, MainComponent } from "@/layout/LayoutComponent";
+import LoadingComponent from "@/components/loadingComponent";
 
 const Hero: NextPage = () => {
     
@@ -18,34 +20,20 @@ const Hero: NextPage = () => {
     const { id } = router.query;
 
     const [ commics, setCommics ] = useState<Commics[]>();
+    const [ loading, setLoading ] = useState<boolean>(true);
     const [ character, setCharacter ] = useState<Characters>();
 
     const getCharacters = async () => {
-        await fetch(`${baseURL}/characters/${id}?${generateHash()}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
-            },
-        }).then((response) => {
-            return response.json();
-        }).then(({ data }) => {
-            setCharacter(data.results[0]);
-            getCommics(data.results[0].comics.collectionURI);
+        await axios.get(`${baseURL}/characters/${id}?${generateHash()}`).then(({ data }) => {
+            setCharacter(data.data.results[0]);
+            getCommics(data.data.results[0].comics.collectionURI);
         }).catch((error) => {});
     };
 
     const getCommics = async (collectionURI: string) => {
-        await fetch(`${collectionURI.split('http').join('https')}?${generateHash()}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
-            },
-        }).then((response) => {
-            return response.json();
-        }).then(({ data }) => {
-            setCommics(data.results);
+        await axios.get(`${collectionURI.split('http').join('https')}?${generateHash()}`).then(({ data }) => {
+            setCommics(data.data.results);
+            setLoading(false);
         }).catch((error) => {});
     };
 
@@ -53,26 +41,32 @@ const Hero: NextPage = () => {
         getCharacters();
     }, []);
 
+    const mainComponent = () => {
+        return(
+            <MainComponent>
+                <h1>{ character?.name }</h1>
+                <Content>
+                    <DescriptionContainer>
+                        <div style={{ marginBottom: '1.2rem' }}>
+                            <Span><SpanTitle>Last update: </SpanTitle>{ moment(character?.modified).format('MMMM Do YYYY, h:mm:ss') }</Span>
+                            <Span><SpanTitle>Series: </SpanTitle>{ character?.series?.available }</Span>
+                            <Span><SpanTitle>Stories: </SpanTitle>{ character?.stories?.available }</Span>
+                        </div>
+                        <h2 style={{ marginBottom: '1.2rem' }}>Description</h2>
+                        <Text style={{ }}>{ character?.description }</Text>
+                        <Image src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`} alt="Hero" loading="lazy" />
+                    </DescriptionContainer>
+                    <CommicsContainer>
+                        <h2 style={{ marginBottom: '1.2rem' }}>Commics</h2>
+                        <CommicsList commics={ commics }></CommicsList>
+                    </CommicsContainer>
+                </Content>
+            </MainComponent>
+        )
+    }
+
     return (
-        <MainComponent>
-            <h1>{ character?.name }</h1>
-            <Content>
-                <DescriptionContainer>
-                    <div style={{ marginBottom: '1.2rem' }}>
-                        <Span><SpanTitle>Last update: </SpanTitle>{ moment(character?.modified).format('MMMM Do YYYY, h:mm:ss') }</Span>
-                        <Span><SpanTitle>Series: </SpanTitle>{ character?.series?.available }</Span>
-                        <Span><SpanTitle>Stories: </SpanTitle>{ character?.stories?.available }</Span>
-                    </div>
-                    <h2 style={{ marginBottom: '1.2rem' }}>Description</h2>
-                    <Text style={{ }}>{ character?.description }</Text>
-                    <Image src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`} alt="Hero" loading="lazy" />
-                </DescriptionContainer>
-                <CommicsContainer>
-                    <h2 style={{ marginBottom: '1.2rem' }}>Commics</h2>
-                    <CommicsList commics={ commics }></CommicsList>
-                </CommicsContainer>
-            </Content>
-        </MainComponent>
+        loading ? <LoadingComponent /> : mainComponent()
     )
 }
 

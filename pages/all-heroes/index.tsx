@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import styled from 'styled-components';
@@ -13,11 +14,13 @@ import { baseURL, generateHash } from '@/api/api';
 
 import { styled as muiStyled } from '@mui/system';
 import type { NextPage } from 'next';
+import LoadingComponent from '@/components/loadingComponent';
 
 const AllHeroes: NextPage = () => {
 
     const [ page, setPage ] = useState<number>(1);
     const [ filter, setFilter ] = useState<string>('name');
+    const [ loading, setLoading ] = useState<boolean>(true);
     const [ totalPages, setTotalPages ] = useState<number>(0);
     const [ characters, setCharacters ] = useState<Characters>();
     const [ totalPerPage, setTotalPerPage ] = useState<number>(5);
@@ -38,17 +41,10 @@ const AllHeroes: NextPage = () => {
     }
 
     const getCharacters = async () => {
-        await fetch(`${baseURL}/characters?${generateHash()}&offset=${totalPerPage * (page-1)}&orderBy=${filter}&limit=${totalPerPage}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
-            },
-        }).then((response) => {
-            return response.json();
-        }).then(({ data }) => {
-            setTotalPages(data.total);
-            setCharacters(data.results);
+        await axios.get(`${baseURL}/characters?${generateHash()}&offset=${totalPerPage * (page-1)}&orderBy=${filter}&limit=${totalPerPage}`).then(({ data }) => {
+            setTotalPages(data.data.total);
+            setCharacters(data.data.results);
+            setLoading(false);
         }).catch((error) => {});
     };
 
@@ -56,42 +52,48 @@ const AllHeroes: NextPage = () => {
         getCharacters();
     }, [ page, filter, totalPerPage ]);
 
+    const mainComponent = () => {
+        return(
+            <MainComponent>
+                <HeaderComponent>
+                    <h1>All Heroes</h1>
+                    <div>
+                        <MySelect
+                            value={ totalPerPage }
+                            label="Total per page"
+                            onChange={ (event) => handleChangeTotalPerPage(event) }
+                            style={{ width: '5rem', marginRight: '1rem' }}
+                        >
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                            <MenuItem value={100}>100</MenuItem>
+                        </MySelect>
+                        <MySelect
+                            value={ filter }
+                            label="Filter by"
+                            onChange={ (event) => handleChangeFilter(event) }
+                            style={{ width: '10rem' }}
+                        >
+                            <MenuItem value='name'>A-Z</MenuItem>
+                            <MenuItem value='-name'>Z-A</MenuItem>
+                            <MenuItem value='modified'>Modified</MenuItem>
+                        </MySelect>
+                    </div>
+                </HeaderComponent>
+                <Content>
+                    <CharactersList characters={ characters } />
+                </Content>
+                <Stack spacing={2}>
+                    <MyPagination onChange={ (event, value) => handleChangePage(null, value) } count={ totalPages } variant="outlined" shape="rounded" />
+                </Stack>
+            </MainComponent>
+        )
+    }
+
     return (
-        <MainComponent>
-            <HeaderComponent>
-                <h1>All Heroes</h1>
-                <div>
-                    <MySelect
-                        value={ totalPerPage }
-                        label="Total per page"
-                        onChange={ (event) => handleChangeTotalPerPage(event) }
-                        style={{ width: '5rem', marginRight: '1rem' }}
-                    >
-                        <MenuItem value={5}>5</MenuItem>
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={20}>20</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                        <MenuItem value={100}>100</MenuItem>
-                    </MySelect>
-                    <MySelect
-                        value={ filter }
-                        label="Filter by"
-                        onChange={ (event) => handleChangeFilter(event) }
-                        style={{ width: '10rem' }}
-                    >
-                        <MenuItem value='name'>A-Z</MenuItem>
-                        <MenuItem value='-name'>Z-A</MenuItem>
-                        <MenuItem value='modified'>Modified</MenuItem>
-                    </MySelect>
-                </div>
-            </HeaderComponent>
-            <Content>
-                <CharactersList characters={ characters } />
-            </Content>
-            <Stack spacing={2}>
-                <MyPagination onChange={ (event, value) => handleChangePage(null, value) } count={ totalPages } variant="outlined" shape="rounded" />
-            </Stack>
-        </MainComponent>
+        loading ? <LoadingComponent /> : mainComponent()
     )
 }
 

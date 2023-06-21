@@ -6,7 +6,7 @@ const CommicsList = (props: any) => {
         <Content>
             { props.commics?.map((commic: any) => {
                 return (
-                    <CommicCard key={ commic.name }>
+                    <CommicCard key={ commic.id }>
                         <Thumbnail>
                             <Image src={ `${commic.thumbnail.path}.${commic.thumbnail.extension}` } alt={ commic.name } />
                         </Thumbnail>

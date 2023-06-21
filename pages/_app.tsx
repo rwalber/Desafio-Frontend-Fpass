@@ -4,6 +4,7 @@ import LayoutComponent from '@/layout/LayoutComponent';
 import type { AppProps } from 'next/app';
 
 import '../styles/global.css';
+import App from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -20,5 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   )
 }
+
+MyApp.getInitialProps = async (appContext: any) => {
+  const appProps = await App.getInitialProps(appContext);
+  return { ...appProps };
+};
 
 export default MyApp;

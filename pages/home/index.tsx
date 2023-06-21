@@ -7,6 +7,7 @@ import { baseURL, generateHash } from "@/api/api";
 
 import type { NextPage } from 'next';
 
+import axios from "axios";
 import CharactersList from "@/components/charactersList";
 import DinamicBackground from "@/components/dinamicBackground";
 
@@ -19,20 +20,12 @@ const Home: NextPage = () => {
         setCharacters([]);
     }, []);
 
-    const getCharacters = (query: string) => {
+    const getCharacters = async (query: string) => {
         if(query === '') {
             setCharacters([]);
         } else {
-            fetch(`${baseURL}/characters?${generateHash()}&nameStartsWith=${query}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': '*/*',
-                },
-            }).then((response) => {
-                return response.json();
-            }).then(({ data }) => {
-                setCharacters(data.results);
+            await axios.get(`${baseURL}/characters?${generateHash()}&nameStartsWith=${query}`).then(({ data }) => {
+                setCharacters(data.data.results);
             }).catch((error) => {});
         }
     }
