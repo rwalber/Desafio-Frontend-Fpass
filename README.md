@@ -28,7 +28,7 @@ Seja bem vindo ao Marvel Wiki, onde você encontrará fatos exclusivos dos seus 
 * Este projeto faz parte do desafio técnico proposto pela Startup Fpass;
 * Projeto desenvolvido por Walber Rocha;
 
-[![Product Name Screen Shot][product-screenshot]](https://desafio-frontend-fpass-filmx27c2-rwalber.vercel.app/)
+[![Product Name Screen Shot][product-screenshot]](https://marvel-wiki-ivory.vercel.app/)
 
 ### Construção
 
