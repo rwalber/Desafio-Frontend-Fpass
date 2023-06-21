@@ -3,9 +3,9 @@ import md5 from 'md5';
 export const baseURL = 'https://gateway.marvel.com/v1/public';
 
 export const generateHash = () => {
-    const publicKey = '6829debddb01a1a3c9409cc4e728e066';
-    const privateKey = 'fea09e4184d4047bad0bd0984bd40e568f3db08d';
+    const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY_MARVEL;
+    const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY_MARVEL;
     const ts = Date.now();
-    const hash = md5(ts + privateKey + publicKey);
+    const hash = md5(ts + String(privateKey) + String(publicKey));
     return `ts=${ts}&apikey=${publicKey}&hash=${hash}`;
 }
