@@ -50,6 +50,9 @@ const HeaderCharacter = styled.div`
     display: flex;
     padding: .7rem 1rem;
     flex-direction: row;
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+    }
 `
 
 const Thumbnail = styled.div`
@@ -82,6 +85,10 @@ const Description = styled.span`
     color: #FFF;
     margin: .2rem 0;
     font-size: 1rem;
+    text-align: justify;
+    hyphens: auto;
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
 `
 
 const FooterCharacter = styled.div`
@@ -89,6 +96,9 @@ const FooterCharacter = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     margin: .5rem 0;
+    @media screen and (max-width: 600px) {
+        flex-wrap: wrap;
+    }
 `
 
 const FooterItem = styled.span`

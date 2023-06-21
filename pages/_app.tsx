@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Navbar from '@/layout/navbar';
-
-import '../styles/global.css';
+import LayoutComponent from '@/layout/LayoutComponent';
 
 import type { AppProps } from 'next/app';
+
+import '../styles/global.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -11,13 +11,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Marvel Wiki</title>
-        <meta name="Wiki dos hérois da Marvel" content="" />
+        <meta name="Wiki about your favorite marvel hero" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <Component {...pageProps} />
+      <LayoutComponent>
+        <Component {...pageProps} />
+      </LayoutComponent>      
     </>
   )
 }
 
-export default MyApp
+export default MyApp;

@@ -67,21 +67,30 @@ const Home: NextPage = () => {
 export default Home;
 
 const Main = styled.main`
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 100%;
 `
 
 const Title = styled.h1`
     font-size: 3rem;
+    text-align: center;
     font-weight: 700;
+    @media screen and (max-width: 505px) {
+        font-size: 2rem;
+    }
 `
 
 const SubTitle = styled.h2`
     font-size: 1.5rem;
+    text-align: center;
+    @media screen and (max-width: 505px) {
+        font-size: 1rem;
+    }
 `
 
 const Content = styled.div`
@@ -100,11 +109,11 @@ const Form = styled.form`
 const Input = styled.input`
     width: 98%;
     height: 2.8rem;
-    border-radius: .2rem;
     border: none;
-    padding: 0 .5rem;
     margin: 1rem 0;
+    padding: 0 .5rem;
     opacity: .9;
+    border-radius: .2rem;
     &:focus {
         outline: none;
     }
@@ -115,36 +124,36 @@ const Input = styled.input`
 `
 
 const DisplayHeroes = styled.div`
-    background-color: #413636d8;
     width: 100%;
     height: 30rem;
-    overflow-y: scroll;
     display: inline-block;
+    overflow-y: scroll;
+    transition: visibility .4s ease-in-out;
+    background-color: #413636d8;
     visibility: ${(props) => props.hidden ? 'hidden' : 'visible'};
     animation: ${(props) => props.hidden ? fadeOut : fadeIn } .4s ease-in-out;
-    transition: visibility .4s ease-in-out;
 `
 
 const fadeIn = keyframes`
   from {
-    transform: scale(.25);
     opacity: 0;
+    transform: scale(.25);
   }
 
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 `;
 
 const fadeOut = keyframes`
   from {
-    transform: scale(1);
     opacity: 0;
+    transform: scale(1);
   }
 
   to {
-    transform: scale(.25);
     opacity: 1;
+    transform: scale(.25);
   }
 `;

@@ -17,7 +17,7 @@ export default Index;
 const Main = styled.main`
     width: 100%;
     display: flex;
-    min-height: 92vh;
+    min-height: 90vh;
     align-items: center;
     flex-direction: column;
     justify-content: center;

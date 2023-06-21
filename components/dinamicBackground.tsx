@@ -7,18 +7,18 @@ const DinamicBackground = () => {
     const [ baseRandom, setBaseRandom ] = useState<string[]>(['2', '3', '4', '5', '6', '7', '8', '9', '10', '11']);
     
     useEffect(() => {
-        setImages([
-            randomImage(baseRandom),
-            randomImage(baseRandom),
-            randomImage(baseRandom),
-            randomImage(baseRandom),
-        ]);
+        setImages(gerateRandomImages(baseRandom));
     }, []);
 
-    const randomImage = (arr: Array<string>) => {
-        const random = Math.floor(Math.random() * arr.length);
-        setBaseRandom(baseRandom.filter(item => !baseRandom.includes(item)));
-        return baseRandom[random];
+    function gerateRandomImages(array: string[]) {
+        let auxArray = array.slice();
+        let sortImages: string[] = [];
+        for (var i = 0; i < 4; i++) {
+          const indiceSorteado = Math.floor(Math.random() * auxArray.length);
+          sortImages.push(auxArray[indiceSorteado]);
+          auxArray.splice(indiceSorteado, 1);
+        }
+        return sortImages;
     }
 
     return(
@@ -39,12 +39,15 @@ const DinamicBackground = () => {
 export default DinamicBackground;
 
 const Background = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
     width: 100%;
+    /* height: 100%; */
+    
     position: absolute;
+    
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
 `
 
 const ImageContainer = styled.div`
@@ -59,10 +62,10 @@ const ImageContainer = styled.div`
 const Image = styled.img`
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: .5rem;
     opacity: .25;
+    object-fit: cover;
     transition: .4s all;
+    border-radius: .5rem;
     &:hover {
         opacity: .6;
     }

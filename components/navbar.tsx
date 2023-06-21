@@ -20,12 +20,24 @@ const Navbar = () => {
 export default Navbar;
 
 const Nav = styled.nav`
-  background-color: #FFF;
-  height: 8vh;
+  width: 100%;
+  height: 4rem;
+  
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  flex-direction: row;
   justify-content: space-between;
+  background-color: #FFF;
+  
+  z-index: 100;
+  padding: 0 1rem;
+  position: fixed;
+
+  @media screen and (max-width: 505px) {
+    flex-direction: column;
+    height: 5rem;
+    padding: 1rem;
+  }
 `
 
 const Logo = styled.img`
@@ -39,16 +51,22 @@ const List = styled.ul`
   display: flex;
   align-items: center;
   flex-direction: row;
+  padding-right: 1rem;
 `
 
 const ListItem = styled.li`
-  list-style: none;
+  color: #000;
   margin: 0 1rem;
   font-size: 1.2rem;
   font-style: normal;
-  text-transform: uppercase;
+  list-style: none;
   font-family: 'Carter One', cursive;
-  color: #000;
+  text-transform: uppercase;
+
+  @media screen and (max-width: 505px) {
+    font-size: 1rem;
+  }
+
   &:hover {
     cursor: pointer;
     color: #FF0000;

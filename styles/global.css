@@ -10,7 +10,7 @@
 
 body {
     width: 100%;
-    min-height: 100vh;
+    min-height: 90vh;
     background-color: #500507;
     background-image: url('../public/background.webp');
     background-size: cover;

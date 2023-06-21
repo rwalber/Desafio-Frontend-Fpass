@@ -10,6 +10,7 @@ import { Characters } from "@/models/characteres";
 import { baseURL, generateHash } from '@/api/api';
 
 import type { NextPage } from 'next';
+import { Image, MainComponent } from "@/layout/LayoutComponent";
 
 const Hero: NextPage = () => {
     
@@ -35,7 +36,7 @@ const Hero: NextPage = () => {
     };
 
     const getCommics = async (collectionURI: string) => {
-        await fetch(`${collectionURI}?${generateHash()}`, {
+        await fetch(`${collectionURI.split('http').join('https')}?${generateHash()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,10 +54,10 @@ const Hero: NextPage = () => {
     }, []);
 
     return (
-        <Main>
+        <MainComponent>
             <h1>{ character?.name }</h1>
             <Content>
-                <div style={{ width: '50%' }}>
+                <DescriptionContainer>
                     <div style={{ marginBottom: '1.2rem' }}>
                         <Span><SpanTitle>Last update: </SpanTitle>{ moment(character?.modified).format('MMMM Do YYYY, h:mm:ss') }</Span>
                         <Span><SpanTitle>Series: </SpanTitle>{ character?.series?.available }</Span>
@@ -65,26 +66,17 @@ const Hero: NextPage = () => {
                     <h2 style={{ marginBottom: '1.2rem' }}>Description</h2>
                     <Text style={{ }}>{ character?.description }</Text>
                     <Image src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`} alt="Hero" loading="lazy" />
-                </div>
+                </DescriptionContainer>
                 <CommicsContainer>
                     <h2 style={{ marginBottom: '1.2rem' }}>Commics</h2>
                     <CommicsList commics={ commics }></CommicsList>
                 </CommicsContainer>
             </Content>
-            
-        </Main>
+        </MainComponent>
     )
 }
 
 export default Hero;
-
-const Main = styled.main`
-    display: flex;
-    padding: 2rem;
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: center;
-`
 
 const Content = styled.div`
     margin: 1rem 0;
@@ -92,28 +84,29 @@ const Content = styled.div`
     align-items: flex-start;
     flex-direction: row;
     justify-content: space-between;
+    @media screen and (max-width: 630px) {
+        flex-direction: column;
+    }
+`
+
+const DescriptionContainer = styled.div`
+    width: 48%;
+    @media screen and (max-width: 630px) {
+        width: 100%;
+    }
 `
 
 const CommicsContainer = styled.div`
-    width: 45%;
+    width: 48%;
     height: 42rem;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     justify-content: flex-start;
     border-radius: .5rem;
-`
-
-const Image = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: .4s all;
-    border-radius: .5rem;
-    opacity: .25;
-    margin-top: 1rem;
-    &:hover {
-        opacity: .6;
+    @media screen and (max-width: 630px) {
+        width: 100%;
+        margin-top: 1rem;
     }
 `
 

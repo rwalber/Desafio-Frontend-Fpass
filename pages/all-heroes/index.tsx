@@ -8,6 +8,7 @@ import CharactersList from '@/components/charactersList';
 
 import { MenuItem } from '@mui/material';
 import { Characters } from '@/models/characteres';
+import { MainComponent } from '@/layout/LayoutComponent';
 import { baseURL, generateHash } from '@/api/api';
 
 import { styled as muiStyled } from '@mui/system';
@@ -56,7 +57,7 @@ const AllHeroes: NextPage = () => {
     }, [ page, filter, totalPerPage ]);
 
     return (
-        <Main>
+        <MainComponent>
             <HeaderComponent>
                 <h1>All Heroes</h1>
                 <div>
@@ -90,7 +91,7 @@ const AllHeroes: NextPage = () => {
             <Stack spacing={2}>
                 <MyPagination onChange={ (event, value) => handleChangePage(null, value) } count={ totalPages } variant="outlined" shape="rounded" />
             </Stack>
-        </Main>
+        </MainComponent>
     )
 }
 
@@ -128,14 +129,6 @@ const MySelect = muiStyled(Select)({
     },
 });
 
-const Main = styled.main`
-    display: flex;
-    padding: 2rem;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-`
-
 const HeaderComponent = styled.div`
     width: 100%;
     display: flex;
@@ -143,7 +136,6 @@ const HeaderComponent = styled.div`
     flex-direction: row;
     justify-content: space-between;
     padding: 0 2rem;
-    margin-bottom: 1rem;
 `
 
 const Content = styled.div`
@@ -151,5 +143,4 @@ const Content = styled.div`
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    margin-bottom: 1rem;
 `
