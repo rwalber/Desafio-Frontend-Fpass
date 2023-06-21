@@ -1,5 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
+import ReactAudioPlayer from "react-audio-player";
 
 import { useRouter } from 'next/navigation';
 
@@ -9,6 +10,7 @@ const Navbar = () => {
     <Nav>
       <Logo onClick={ () => router.push('/') } src="/logo.webp" alt="logo" />
       <List>
+        <ReactAudioPlayer src="/theme.mp3" controls autoPlay={ true } loop={ true } />
         <ListItem onClick={ () => router.push('/') }>Home</ListItem>
         <ListItem onClick={ () => router.push('/all-heroes') }>All Heroes</ListItem>
         <ListItem onClick={ () => window.open('https://www.linkedin.com/in/rwalber/', '_blank') } >Developer</ListItem>
