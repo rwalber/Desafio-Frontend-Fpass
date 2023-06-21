@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color: #5d5c5e #500507;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #500507;
+    background-image: url('../public/background.webp');
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Carter One', cursive;
+}
+
+span, p {
+    line-height: 1.4rem;
+}
+
+span, h1, h2, h3, p {
+    color: #FFF;
+}
+
+*::-webkit-scrollbar {
+    width: .4rem;
+}
+
+*::-webkit-scrollbar-track {
+    background: #500507;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #5d5c5e;
+    border-radius: .4rem;
+    border: .4rem solid #500507;
+    border: none;
+}

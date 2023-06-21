@@ -1,0 +1,31 @@
+export interface Commics {
+    characters: any;
+    collectedIssues: any;
+    collections: any;
+    creators: any;
+    dates: any;
+    description: string;
+    diamondCode: string;
+    digitalId: number;
+    ean: string;
+    events: any;
+    format: string;
+    id: number;
+    images: any;
+    isbn: string;
+    issn: string;
+    issueNumber: number;
+    modified: Date;
+    pageCount: number;
+    prices: any;
+    resourceURI: string;
+    series: any;
+    stories: any;
+    textObjects: any;
+    thumbnail: any;
+    title: string;
+    upc: string;
+    urls: any;
+    variantDescription: string;
+    variants: any;
+}
