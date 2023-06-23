@@ -31,6 +31,7 @@ const Main = styled.main`
 `
 
 export const MainComponent = styled.main`
+    width: 90%;
     display: flex;
     padding: 2rem;
     align-items: center;
