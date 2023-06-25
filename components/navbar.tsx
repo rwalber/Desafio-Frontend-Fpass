@@ -9,8 +9,8 @@ const Navbar = () => {
   return (
     <Nav>
       <Logo onClick={ () => router.push('/') } src="/logo.webp" alt="logo" />
+      <ReactAudioPlayer src="/theme.mp3" controls autoPlay={ true } loop={ true } style={{ padding: '1rem 0' }} />
       <List>
-        <ReactAudioPlayer src="/theme.mp3" controls autoPlay={ true } loop={ true } />
         <ListItem onClick={ () => router.push('/') }>Home</ListItem>
         <ListItem onClick={ () => router.push('/all-heroes') }>All Heroes</ListItem>
         <ListItem onClick={ () => window.open('https://www.linkedin.com/in/rwalber/', '_blank') } >Developer</ListItem>
@@ -23,7 +23,7 @@ export default Navbar;
 
 const Nav = styled.nav`
   width: 100%;
-  height: 4rem;
+  min-height: 4rem;
   
   display: flex;
   align-items: center;
@@ -35,17 +35,27 @@ const Nav = styled.nav`
   padding: 0 1rem;
   position: fixed;
 
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 850px) {
+    justify-content: center;
+  }
+
   @media screen and (max-width: 505px) {
     flex-direction: column;
-    height: 5rem;
+    min-height: 5rem;
     padding: 1rem;
   }
+
 `
 
 const Logo = styled.img`
   width: 7rem;
   &:hover {
     cursor: pointer;
+  }
+  @media screen and (max-width: 850px) {
+    margin: 0 2rem;
   }
 `
 
@@ -54,6 +64,9 @@ const List = styled.ul`
   align-items: center;
   flex-direction: row;
   padding-right: 1rem;
+  @media screen and (max-width: 850px) {
+    margin: 1rem 0;
+  }
 `
 
 const ListItem = styled.li`

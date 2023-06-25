@@ -25,8 +25,11 @@ const Main = styled.main`
     flex-direction: column;
     align-items: center;
     padding-top: 4rem;
+    @media screen and (max-width: 850px) {
+        padding-top: 8rem;
+    }
     @media screen and (max-width: 505px) {
-        padding-top: 6rem;
+        padding-top: 12rem;
     }
 `
 
